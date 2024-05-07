@@ -22,52 +22,52 @@ export function TodoListApp() {
     }, []);
 
     const addTodo = async () => {
-        if (text.trim()) {
+        try {
             const todoData = {
                 title: text,
-                description: '',
-                priority: 'Medium',
-                dueDate: null,
-                completed: false,
-                createdAt: new Date(),
-                lastModifiedAt: new Date(),
-                assignedTo: '',
-                tags: [],
-                attachments: []
             };
 
-            try {
-                const docRef = await firestore().collection('todos').add(todoData);
-                console.log('Todo added successfully with ID: ', docRef.id);
-                setText('');
-            } catch (error) {
-                console.error('Error adding todo: ', error);
-            }
+            const docRef = await firestore().collection('List').add(todoData);
+            console.log('Todo added successfully with ID: ', docRef.id);
+
+            // Update local state with the new todo data
+            setTodos(prevTodos => [...prevTodos, { id: docRef.id, ...todoData }]);
+
+            setText('');
+        } catch (error) {
+            console.error('Error adding todo: ', error);
+            Alert.alert('An error occurred while adding todo');
         }
     };
+
 
     const removeTodo = async (id) => {
         try {
-            await firestore().collection('todos').doc(id).delete();
+            // Delete the todo from the database
+            await firestore().collection('List').doc(id).delete();
+
+            // Update the local state to remove the todo with the specified id
+            setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
         } catch (error) {
             console.error('Error removing todo: ', error);
+            Alert.alert('An error occurred while removing todo');
         }
     };
 
-    const renderItem = ({ item }) => (
+
+    const renderItem = ({ item, index }) => (
         <View style={styles.todoItem}>
             <TouchableOpacity onPress={() => removeTodo(item.id)}>
                 <Icon name="times" size={20} color="red" />
             </TouchableOpacity>
-            <Text>{item.title}</Text>
+            <Text>{`${index + 1}. ${item.title}`}</Text>
         </View>
     );
 
+
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                <Text style={styles.backButtonText}>Back</Text>
-            </TouchableOpacity>
+
             <TextInput
                 style={styles.input}
                 placeholder="Add Todo..."
@@ -83,6 +83,12 @@ export function TodoListApp() {
                 keyExtractor={item => item.id}
                 style={styles.list}
             />
+            <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={{ alignItems: 'center', marginTop: 20 }}
+            >
+                <Text style={{ color: 'blue' }}>Log out</Text>
+            </TouchableOpacity>
         </View>
     );
 }
@@ -135,5 +141,4 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
     },
 });
-
 export default TodoListApp;

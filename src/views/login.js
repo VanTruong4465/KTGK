@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, Button, ActivityIndicator, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 export default function Login({ navigation }) {
@@ -17,7 +17,7 @@ export default function Login({ navigation }) {
 
             if (documentSnapshot.exists) {
                 const userData = documentSnapshot.data();
-                if (userData.ID === username && userData.Password === password) {
+                if (userData.email === username && userData.pass === password) {
                     console.log('successful');
                     navigation.navigate('Home');
                 } else {
@@ -37,12 +37,12 @@ export default function Login({ navigation }) {
     return (
         <View style={{ backgroundColor: '#3498DB', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <View style={{ marginTop: 5 }}>
-                <Text style={{ fontSize: 24, color: 'pink' }}>Login</Text>
+                <Text style={{ fontSize: 35, color: 'pink' }}>Login</Text>
             </View>
             <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, marginTop: 15 }}>
                 <TextInput
                     style={{ height: 40, width: 350, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
-                    placeholder="Username"
+                    placeholder="Email"
                     onChangeText={setUsername}
                     value={username}
                 />
@@ -59,6 +59,13 @@ export default function Login({ navigation }) {
                     onPress={checkCredentials}
                     disabled={loading}
                 />
+                <TouchableOpacity
+                    style={{ alignItems: 'center', marginTop: 10 }} // Sử dụng style object để định dạng TouchableOpacity
+                    onPress={() => navigation.navigate('Register')}
+                >
+                    <Text style={{ color: 'blue' }}>Register</Text>
+                </TouchableOpacity>
+
             </View>
         </View>
     );
