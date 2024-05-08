@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ActivityIndicator, Alert, Image } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 export default function Login({ navigation }) {
@@ -35,38 +35,88 @@ export default function Login({ navigation }) {
     };
 
     return (
-        <View style={{ backgroundColor: '#3498DB', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <View style={{ marginTop: 5 }}>
-                <Text style={{ fontSize: 35, color: 'pink' }}>Login</Text>
+        <View style={styles.container}>
+            <View style={{ alignItems: 'center', marginBottom: 20 }}>
+                <Image
+                    source={require('../assets/logo1.png')}
+                    style={{ width: 300, height: 300, marginBottom: 7 }}
+                    resizeMode="contain"
+                />
             </View>
-            <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, marginTop: 15 }}>
+            <View style={styles.form}>
                 <TextInput
-                    style={{ height: 40, width: 350, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
+                    style={styles.input}
                     placeholder="Email"
                     onChangeText={setUsername}
                     value={username}
                 />
                 <TextInput
-                    style={{ height: 40, width: 350, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
+                    style={styles.input}
                     placeholder="Password"
                     onChangeText={setPassword}
                     value={password}
                     secureTextEntry={true}
                 />
                 <Button
-                    style={{ backgroundColor: 'pink' }}
+                    style={{ borderRadius: 10 }}
                     title={loading ? 'Loading...' : 'Login'}
                     onPress={checkCredentials}
                     disabled={loading}
                 />
                 <TouchableOpacity
-                    style={{ alignItems: 'center', marginTop: 10 }} // Sử dụng style object để định dạng TouchableOpacity
+                    style={[styles.button, styles.buttonText]}  // Sử dụng style object để định dạng TouchableOpacity
                     onPress={() => navigation.navigate('Register')}
                 >
-                    <Text style={{ color: 'blue' }}>Register</Text>
+                    <Text style={{ color: 'white' }}>Register</Text>
                 </TouchableOpacity>
 
             </View>
         </View>
     );
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    title: {
+        fontSize: 35,
+        color: 'pink',
+        marginBottom: 20,
+    },
+    form: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        marginBottom: 20,
+
+    },
+    input: {
+        height: 40,
+        width: 350,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+    },
+    button: {
+        backgroundColor: 'pink',
+        paddingVertical: 10,
+        alignItems: 'center',
+        borderRadius: 10,
+        width: 350,
+    },
+    buttonText: {
+        marginTop: 10,
+        height: 40,
+        textAlign: 'center',
+        borderRadius: 10,
+        backgroundColor: '#FF3333',
+        width: 350,
+        justifyContent: 'center',
+        color: 'white'
+    }
+});

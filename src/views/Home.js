@@ -58,7 +58,7 @@ export function TodoListApp() {
     const renderItem = ({ item, index }) => (
         <View style={styles.todoItem}>
             <TouchableOpacity onPress={() => removeTodo(item.id)}>
-                <Icon name="times" size={20} color="red" />
+                <Icon name="trash" size={20} color="blue" />
             </TouchableOpacity>
             <Text>{`${index + 1}. ${item.title}`}</Text>
         </View>
@@ -87,6 +87,7 @@ export function TodoListApp() {
                 onPress={() => navigation.goBack()}
                 style={{ alignItems: 'center', marginTop: 20 }}
             >
+                <Icon name="backward" size={20} color="red" />
                 <Text style={{ color: 'blue' }}>Log out</Text>
             </TouchableOpacity>
         </View>

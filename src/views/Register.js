@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 export default function Register({ navigation }) {
@@ -32,7 +32,12 @@ export default function Register({ navigation }) {
     };
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+        <View style={styles.container}>
+            <Image
+                source={require('../assets/logo1.png')}
+                style={{ width: 300, height: 300 }}
+                resizeMode="contain"
+            />
             <Text style={{
                 fontSize: 40,
                 fontWeight: "bold",
@@ -46,9 +51,7 @@ export default function Register({ navigation }) {
                 placeholder="Email"
                 onChangeText={setEmail}
                 value={email}
-                style={{
-                    margin: 10
-                }}
+                style={styles.input}
                 keyboardType='email-address'
             />
             <TextInput
@@ -56,47 +59,93 @@ export default function Register({ navigation }) {
                 onChangeText={setPassword}
                 value={password}
                 secureTextEntry={true}
-                style={{
-                    margin: 10
-                }}
+                style={styles.input}
             />
             <TextInput
                 placeholder="RePassword"
                 onChangeText={setRepassword}
                 value={repassword}
                 secureTextEntry={true}
-                style={{
-                    margin: 10
-                }}
+                style={styles.input}
             />
             <TextInput
                 placeholder="Full name"
                 onChangeText={setName}
                 value={name}
-                style={{
-                    margin: 10
-                }}
+                style={styles.input}
             />
 
             <TouchableOpacity
                 onPress={handleRegister}
-                style={{
-                    margin: 10,
-                    padding: 10,
-                    alignItems: 'center',
-                    backgroundColor: 'blue',
-                }}
+                style={[styles.button, styles.buttonText1]}
             >
                 <Text style={{ fontSize: 20, color: 'white' }}>Register</Text>
             </TouchableOpacity>
             <TouchableOpacity
+                style={[styles.button, styles.buttonText]}
                 onPress={() => navigation.goBack()}
-                style={{ alignItems: 'center', marginTop: 20 }}
+
             >
-                <Text style={{ color: 'blue' }}>Go Back</Text>
+                <Text style={{ color: 'white' }}>Go Back</Text>
             </TouchableOpacity>
 
 
         </View>
     );
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    title: {
+        fontSize: 35,
+        color: 'pink',
+        marginBottom: 20,
+    },
+    form: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        marginBottom: 20,
+
+    },
+    input: {
+        height: 40,
+        width: 350,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+    },
+    button: {
+        backgroundColor: 'pink',
+        // paddingVertical: 10,
+        alignItems: 'center',
+        borderRadius: 10,
+        width: 350,
+    },
+    buttonText: {
+        marginTop: 10,
+        height: 40,
+        textAlign: 'center',
+        borderRadius: 10,
+        backgroundColor: '#FF3333',
+        width: 350,
+        justifyContent: 'center',
+        color: 'white'
+    },
+    buttonText1: {
+        marginTop: 10,
+        height: 40,
+        textAlign: 'center',
+        borderRadius: 10,
+        backgroundColor: 'blue',
+        width: 350,
+        justifyContent: 'center',
+        color: 'white'
+    }
+});
